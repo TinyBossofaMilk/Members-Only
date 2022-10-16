@@ -1,74 +1,23 @@
 var express = require('express');
 var router = express.Router();
+// const passport = require("passport");
 
 // Require our controllers.
-// const userController = 
+const userController = require('../controllers/userController');
 
 
 
 //routes
+router.get('/', (req, res) => res.render("home"));
 
-app.get("/sign-up", (req, res) => res.render("sign-up-form"));
+router.get("/sign-up", userController.sign_up_get);
 
-app.post("/sign-up", (req, res, next) => {
-  const user = new User({
-    username: req.body.username,
-    password: req.body.password
-  }).save(err => {
-    if (err) { 
-      return next(err);
-    }
-    res.redirect("/");
-  });
-});
+router.post("/sign-up", userController.sign_up_post);
 
-passport.use(
-  new LocalStrategy((username, password, done) => {
-    User.findOne({ username: username }, (err, user) => {
-      if (err) { 
-        return done(err);
-      }
-      if (!user) {
-        return done(null, false, { message: "Incorrect username" });
-      }
-      bcrypt.compare(password, user.password, (err, res) => {
-        if (res) {
-          // passwords match! log user in
-          return done(null, user)
-        } else {
-          // passwords do not match!
-          return done(null, false, { message: "Incorrect password" })
-        }
-      })
-      return done(null, user);
-    });
-  })
-);
+router.get("/log-in", userController.log_in_get);
 
-// app.use(passport.initialize())
+router.post("/log-in", userController.log_in_post);
 
-passport.serializeUser(function(user, done) {
-  done(null, user.id);
-});
+router.get("/log-out", userController.log_out_get);
 
-passport.deserializeUser(function(id, done) {
-  User.findById(id, function(err, user) {
-    done(err, user);
-  });
-});
-
-app.post("/log-in",
-  bcrypt.hash("somePassword", 10, (err, hashedPassword) => {
-    // if err, do something
-    // otherwise, store hashedPassword in DB
-  })
-);
-
-app.get("/log-out", (req, res, next) => {
-  req.logout(function (err) {
-    if (err) {
-      return next(err);
-    }
-    res.redirect("/");
-  });
-});
+module.exports = router;
