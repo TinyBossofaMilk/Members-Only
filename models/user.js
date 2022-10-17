@@ -9,6 +9,6 @@ var UserSchema = new Schema({
     password: {type: String},
     member: {type: String},
     admin: {type: String}
-})
+});
 
 module.exports = mongoose.model('User', UserSchema);

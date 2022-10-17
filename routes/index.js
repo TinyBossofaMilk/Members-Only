@@ -20,4 +20,6 @@ router.post("/log-in", userController.log_in_post);
 
 router.get("/log-out", userController.log_out_get);
 
+// router.get("/messages")
+
 module.exports = router;

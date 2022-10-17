@@ -52,8 +52,8 @@ exports.log_in_get = (req, res) => res.render("log-in");
 
 exports.log_in_post = (req, res) => 
   passport.authenticate("local", {
-    successRedirect: "/",
-    failureRedirect: "/"
+    successRedirect: "/messages",
+    failureRedirect: "/log-in"
 });
 
 exports.log_out_get = (req, res, next) => {
