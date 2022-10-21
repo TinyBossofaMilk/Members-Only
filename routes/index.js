@@ -3,6 +3,7 @@ var router = express.Router();
 // const passport = require("passport");
 
 // Require our controllers.
+const messageController = require('../controllers/messageController');
 const userController = require('../controllers/userController');
 
 
@@ -20,6 +21,6 @@ router.post("/log-in", userController.log_in_post);
 
 router.get("/log-out", userController.log_out_get);
 
-// router.get("/messages")
+router.get("/messages", messageController.messages_get)
 
 module.exports = router;
