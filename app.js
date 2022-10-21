@@ -11,11 +11,13 @@ const bcrypt = require('bcryptjs');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const createError = require('http-errors');
-
-const indexRouter = require('./routes/index');
-
 var compression = require('compression');
 var helmet = require('helmet');
+
+
+const User = require('./models/user')
+const indexRouter = require('./routes/index');
+
 
 const mongoDb = "mongodb+srv://tinybossofamilk:A1B2C3@sandbox.pik9tii.mongodb.net/Members-Only?retryWrites=true&w=majority";
 mongoose.connect(mongoDb, { useUnifiedTopology: true, useNewUrlParser: true });
@@ -34,26 +36,30 @@ app.use(helmet());
 app.use(compression()); // Compress all routes
 
 passport.use(
-    new LocalStrategy((username, password, done) => {
-      User.findOne({ username: username }, (err, user) => {
-        if (err) { 
-          return done(err);
+  new LocalStrategy((username, password, done) => {
+    // console.log(username)
+    // console.log(password)
+    User.findOne({ email: username }, (err, user) => {
+      if (err) return done(err);
+      if (!user) return done(null, false, { message: "Incorrect username" });
+      bcrypt.compare(password, user.password, (err, res) => {
+
+        console.log(password)
+        console.log(user.password)
+        if (res) {
+          // passwords match! log user in
+          return done(null, user)
+        } else {
+          // passwords do not match!
+          console.log("wrong pswd")
+          return done(null, false, { message: "Incorrect password" })
         }
-        if (!user) {
-          return done(null, false, { message: "Incorrect username" });
-        }
-        bcrypt.compare(password, user.password, (err, res) => {
-          if (res) {
-            // passwords match! log user in
-            return done(null, user)
-          } else {
-            // passwords do not match!
-            return done(null, false, { message: "Incorrect password" })
-          }
-        })
-        return done(null, user);
-      });
-    })
+      })
+      
+
+      // return done(null, user);
+    });
+  })
 );
 
 app.use(session({ secret: "cats", resave: false, saveUninitialized: true }));
