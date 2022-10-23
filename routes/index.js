@@ -21,6 +21,10 @@ router.post("/log-in", userController.log_in_post);
 
 router.get("/log-out", userController.log_out_get);
 
+router.get("/membership-form", userController.membership_get);
+
+router.post("/membership-form", userController.membership_post);
+
 router.get("/messages", messageController.messages_get)
 
 router.get("/message-form", messageController.message_form_get)

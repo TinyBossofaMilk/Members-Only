@@ -10,7 +10,15 @@ exports.messages_get = (req, res) => {
 }
 
 exports.message_form_get = (req, res) => {
-    
+    //if not logged in, redirect to sign in
+    if(!res.locals.currentUser)
+        res.redirect('/sign-up')
+        
+    //if not a member, redirect to membership form
+    if(!res.locals.currentUser.member)
+        res.redirect('/sign-up')
+
+
     res.render("message-form", {user: res.locals.currentUser});
 };
 
@@ -26,7 +34,6 @@ exports.message_form_post = [
             return;
         }
         else {
-            console.log(res.locals.currentUser._id)
             const newmsg = new Message({
                 title: req.body.title,
                 text: req.body.text,
@@ -36,7 +43,7 @@ exports.message_form_post = [
             
             newmsg.save(function (err) { 
                 next(err);
-                res.redirect('messages');
+                res.redirect('/messages');
             })
         }
     }

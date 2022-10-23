@@ -11,7 +11,7 @@ exports.home_get = (req, res) => res.render("home", {user: res.locals.currentUse
 
 exports.sign_up_get = (req, res) => {
   //if already logged in, redirects you to the home.
-  if(res.locals.currentUser) { 
+  if(res.locals.currentUser) {
     return res.redirect("/");
   };
 
@@ -29,7 +29,6 @@ exports.sign_up_post = [
   }),
   (req, res, next) => {
     const errors = validationResult(req);
-    console.log('here');
     if(!errors.isEmpty()) {
       console.log("ERROR!")
       res.render("sign-up", {
@@ -80,12 +79,38 @@ exports.log_out_get = (req, res, next) => {
 };
 
 exports.membership_get = (req, res, next) => {
-  res.render("membership-form-get");
-}
+  res.render("membership-form");
+};
 
-exports.membership_post = (req, res, next) => {
-  //to be implrememnted.
-}
+exports.membership_post = [
+  body("password").isLength({min:1}).withMessage("Password must not be empty")
+    .custom((value, {req}) => {return value === "true";}).withMessage("Incorrect password"),
+
+  (req, res, next) => {
+    let errors = validationResult(req);
+
+    if(!errors.isEmpty()){
+      console.log("failed")
+      res.render("membership-form", {error:["Incorrect password"]});
+      return;
+    }
+    else{
+      console.log("worked");
+      User.findOneAndUpdate({_id:res.locals.currentUser._id}, {member: true})
+      res.redirect("/messages")
+    }
+
+    // if(res.body.password === "true") {
+    //   console.log("here")
+      // User.findbyId(res.locals.currentUser._id).exec(
+      //   (err, user => {
+      //     if(err) return next(err);
+          
+      //     res.redirect('messages')
+      //   })
+      // )
+  }
+]
 
 exports.getHashedPasswordFor = async password => {
   const result = await bcrypt.hash(password, 10)
