@@ -25,4 +25,6 @@ router.get("/messages", messageController.messages_get)
 
 router.get("/message-form", messageController.message_form_get)
 
+router.post("/message-form", messageController.message_form_post)
+
 module.exports = router;
