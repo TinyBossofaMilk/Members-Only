@@ -5,4 +5,15 @@ var bcrypt = require("bcryptjs");
 
 const Message = require("../models/message");
 
-exports.messages_get = (req, res) => res.render("messages");
+exports.messages_get = (req, res) => {
+    res.render("messages", {user: res.locals.currentUser});
+}
+
+exports.message_form_get = (req, res) => {
+    
+    res.render("message-form", {user: res.locals.currentUser});
+};
+
+exports.message_form_post = [
+    (req, res) => {}
+]

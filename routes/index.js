@@ -9,7 +9,7 @@ const userController = require('../controllers/userController');
 
 
 //routes
-router.get('/', (req, res) => res.render("home"));
+router.get('/', userController.home_get);
 
 router.get("/sign-up", userController.sign_up_get);
 
@@ -22,5 +22,7 @@ router.post("/log-in", userController.log_in_post);
 router.get("/log-out", userController.log_out_get);
 
 router.get("/messages", messageController.messages_get)
+
+router.get("/message-form", messageController.message_form_get)
 
 module.exports = router;

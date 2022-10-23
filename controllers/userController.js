@@ -7,9 +7,16 @@ const passport = require('passport');
 const User = require("../models/user");
 
 
-// exports.home_page_get = (req, res) => res.render("home");
+exports.home_get = (req, res) => res.render("home", {user: res.locals.currentUser});
 
-exports.sign_up_get = (req, res) => res.render("sign-up");
+exports.sign_up_get = (req, res) => {
+  //if already logged in, redirects you to the home.
+  if(res.locals.currentUser) { 
+    return res.redirect("/");
+  };
+
+  res.render("sign-up");
+}
 
 exports.sign_up_post = [
   body("firstName").trim().isLength({min:1}).withMessage("First name must not be empty"),
@@ -49,7 +56,14 @@ exports.sign_up_post = [
   }
 ];
 
-exports.log_in_get = (req, res) => res.render("log-in");
+exports.log_in_get = (req, res) => {
+    //if already logged in, redirects you to the home.
+    if(res.locals.currentUser) { 
+      return res.redirect("/");
+    };
+
+    res.render("log-in");
+}
 
 exports.log_in_post = passport.authenticate("local", {
     successRedirect: "/messages",
@@ -64,6 +78,14 @@ exports.log_out_get = (req, res, next) => {
   res.redirect("/");
   });
 };
+
+exports.membership_get = (req, res, next) => {
+  res.render("membership-form-get");
+}
+
+exports.membership_post = (req, res, next) => {
+  //to be implrememnted.
+}
 
 exports.getHashedPasswordFor = async password => {
   const result = await bcrypt.hash(password, 10)
