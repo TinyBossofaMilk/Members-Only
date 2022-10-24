@@ -99,16 +99,6 @@ exports.membership_post = [
       User.findOneAndUpdate({_id:res.locals.currentUser._id}, {member: true})
       res.redirect("/messages")
     }
-
-    // if(res.body.password === "true") {
-    //   console.log("here")
-      // User.findbyId(res.locals.currentUser._id).exec(
-      //   (err, user => {
-      //     if(err) return next(err);
-          
-      //     res.redirect('messages')
-      //   })
-      // )
   }
 ]
 
