@@ -6,5 +6,5 @@ block content
     .message
       .title #[strong #{message.title}]
       .text #{message.text}
-      .date #{message.date}
-      .author #{message.user}
+      .date #{message.date.getHours()+1}:#{message.date.getMinutes()+1}    #{message.date.getMonth() + 1}/#{message.date.getDate()}/#{message.date.getFullYear() + 1}
+      .author #{message.user.lastName}, #{message.user.firstName}

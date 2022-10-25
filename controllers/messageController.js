@@ -3,18 +3,16 @@ var router = express.Router();
 const { body, validationResult } = require("express-validator");
 var bcrypt = require("bcryptjs");
 var async = require('async');
-// const { Schema } = mongoose;
-
 
 const Message = require("../models/message");
 const User = require("../models/user")
 
 exports.messages_get = (req, res, next) => {
 
-    Message.find({}).populate("User").exec((err, messages_list) => {
+    Message.find({}).populate("user").exec((err, messages_list) => {
         if(err) {
-            console.log("error")
-            console.log(err)
+            // console.log("error")
+            // console.log(err)
             return next(err);
         }
         console.log("here")
