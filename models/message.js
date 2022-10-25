@@ -5,7 +5,7 @@ var messageSchema = new Schema({
     title: {type: String},
     text: {type: String},
     date: {type: Date},
-    user: {type: Schema.ObjectId, ref:"user"}
+    user: {type: Schema.ObjectId, ref:"User"}
 });
 
 module.exports = mongoose.model('Message', messageSchema);

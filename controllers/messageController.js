@@ -3,37 +3,49 @@ var router = express.Router();
 const { body, validationResult } = require("express-validator");
 var bcrypt = require("bcryptjs");
 var async = require('async');
+// const { Schema } = mongoose;
 
 
 const Message = require("../models/message");
 const User = require("../models/user")
 
 exports.messages_get = (req, res, next) => {
-    async.parallel(
-        {
-            messages_list(callback) {
-                Message.find().sort({date:1}).exec(callback);
-            },
-            users(callback) {
-                User.find().exec(callback);
-            }
-        },    
-        (err, results) => {
-            if(err) return next(err);
-            
-            //change object id referencing to user to user object instead
-            results.messages_list.forEach((message) => {
-                let author = User.findById(message.user);
-                message.user = author;
-                // console.log(message.user)
-                console.log(author)
-            });
-            
-            res.render("messages", {messages_list: results.messages_list, user: res.locals.currentUser});
-        }
-    )
-};
 
+    Message.find({}).populate("User").exec((err, messages_list) => {
+        if(err) {
+            console.log("error")
+            console.log(err)
+            return next(err);
+        }
+        console.log("here")
+        
+        res.render("messages", {messages_list: messages_list, user: res.locals.currentUser});
+    });
+};
+// async.parallel(
+//     {
+//         messages_list(callback) {
+//             Message.find({}, "title text date user").sort({date:1}).populate("user").exec(callback);
+//         }
+//         // ,
+//         // users(callback) {
+//         //     User.find().exec(callback);
+//         // }
+//     },    
+//     (err, results) => {
+//         if(err) return next(err);
+//         console.log("here")
+//         //change object id referencing to user to user object instead
+//         // results.messages_list.forEach((message) => {
+//         //     let author = User.findById(message.user);
+//         //     message.user = author;
+//         //     // console.log(message.user)
+//         //     console.log(author)
+//         // });
+        
+//         res.render("messages", {messages_list: results.messages_list, user: res.locals.currentUser});
+//     }
+// )
 // async.parallel(
 //     {
 //         ability(callback){
@@ -100,3 +112,12 @@ exports.message_form_post = [
         }
     }
 ]
+
+exports.message_delete_post = (req, res, next) => {
+    Message.findByIdAndDelete(req.params.id)
+        .exec((err, message) => {
+            if(err) return next(err);
+            
+        }
+    )
+};
