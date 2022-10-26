@@ -8,7 +8,6 @@ const Message = require("../models/message");
 const User = require("../models/user")
 
 exports.messages_get = (req, res, next) => {
-
     Message.find({}).populate("user").exec((err, messages_list) => {
         if(err) return next(err);
 

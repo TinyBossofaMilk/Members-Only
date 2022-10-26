@@ -11,6 +11,7 @@ const bcrypt = require('bcryptjs');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const createError = require('http-errors');
+const dotenv = require('dotenv').config();
 var compression = require('compression');
 var helmet = require('helmet');
 
@@ -19,7 +20,7 @@ const User = require('./models/user')
 const indexRouter = require('./routes/index');
 
 
-const mongoDb = "mongodb+srv://tinybossofamilk:A1B2C3@sandbox.pik9tii.mongodb.net/Members-Only?retryWrites=true&w=majority";
+const mongoDb = process.env.MONGODB_URI;
 mongoose.connect(mongoDb, { useUnifiedTopology: true, useNewUrlParser: true });
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "mongo connection error"));
