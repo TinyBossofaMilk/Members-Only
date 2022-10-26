@@ -7,7 +7,10 @@ const passport = require('passport');
 const User = require("../models/user");
 
 
-exports.home_get = (req, res) => res.render("home", {user: res.locals.currentUser});
+exports.home_get = (req, res) => {
+  if(res.locals.currentUser) return res.redirect("/messages");
+  res.render("home", {user: res.locals.currentUser});
+}
 
 exports.sign_up_get = (req, res) => {
   //if already logged in, redirects you to the home.
@@ -79,7 +82,11 @@ exports.log_out_get = (req, res, next) => {
 };
 
 exports.membership_get = (req, res, next) => {
-  res.render("membership-form");
+  //if not logged in, redirect to sign in
+  if(!res.locals.currentUser)
+    res.redirect('/sign-up');
+
+  res.render("membership-form", {user: res.locals.currentUser});
 };
 
 exports.membership_post = [
