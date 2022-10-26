@@ -31,4 +31,6 @@ router.get("/message-form", messageController.message_form_get)
 
 router.post("/message-form", messageController.message_form_post)
 
+router.post("/messages", messageController.message_delete_post)
+
 module.exports = router;

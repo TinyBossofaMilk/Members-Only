@@ -8,3 +8,6 @@ block content
       .text #{message.text}
       .date #{message.date.getHours()+1}:#{message.date.getMinutes()+1}    #{message.date.getMonth() + 1}/#{message.date.getDate()}/#{message.date.getFullYear() + 1}
       .author #{message.user.lastName}, #{message.user.firstName}
+      form(action="" method="POST")
+        input#messageId(type="hidden" name="messageId" value=message._id)
+        button.delete(type="submit" name="submit") Delete

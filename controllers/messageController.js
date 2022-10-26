@@ -10,67 +10,16 @@ const User = require("../models/user")
 exports.messages_get = (req, res, next) => {
 
     Message.find({}).populate("user").exec((err, messages_list) => {
-        if(err) {
-            // console.log("error")
-            // console.log(err)
-            return next(err);
-        }
-        console.log("here")
+        if(err) return next(err);
+
+        function deleteMessage (message) {
+            let deletelink = `message/${message._id}/delete`;
+            res.redirect(deletelink);
+        };
         
-        res.render("messages", {messages_list: messages_list, user: res.locals.currentUser});
+        res.render("messages", {messages_list: messages_list, deleteMessage: deleteMessage, user: res.locals.currentUser});
     });
 };
-// async.parallel(
-//     {
-//         messages_list(callback) {
-//             Message.find({}, "title text date user").sort({date:1}).populate("user").exec(callback);
-//         }
-//         // ,
-//         // users(callback) {
-//         //     User.find().exec(callback);
-//         // }
-//     },    
-//     (err, results) => {
-//         if(err) return next(err);
-//         console.log("here")
-//         //change object id referencing to user to user object instead
-//         // results.messages_list.forEach((message) => {
-//         //     let author = User.findById(message.user);
-//         //     message.user = author;
-//         //     // console.log(message.user)
-//         //     console.log(author)
-//         // });
-        
-//         res.render("messages", {messages_list: results.messages_list, user: res.locals.currentUser});
-//     }
-// )
-// async.parallel(
-//     {
-//         ability(callback){
-//             Ability.findById(req.params.id)
-//                 .exec(callback);
-//         },
-//         pokemon_list(callback) {
-//             Pokemon.find({ability: req.params.id})
-//                 .exec(callback);
-//         }
-//     },
-//     (err, results) => {
-//         if(err) return next(err);
-
-//         if(results.ability == null) {
-//             const err = new Error("Ability not found.");
-//             err.status = 404;
-//             return next(err);
-//         }
-        
-//         // Successful, so render.
-//         res.render("ability-detail", {
-//             ability: results.ability, 
-//             pokemon_list: results.pokemon_list
-//         })
-//     }
-// )
 
 exports.message_form_get = (req, res) => {
     //if not logged in, redirect to sign in
@@ -90,7 +39,7 @@ exports.message_form_post = [
 
     (req, res, next) => {
         const errors = validationResult(req);
-        
+         
         if(!errors.isEmpty()) {
             res.render("message-form", {title: req.body.title, text: req.body.text, errors: errors.array()})
             return;
@@ -111,11 +60,14 @@ exports.message_form_post = [
     }
 ]
 
-exports.message_delete_post = (req, res, next) => {
-    Message.findByIdAndDelete(req.params.id)
-        .exec((err, message) => {
-            if(err) return next(err);
-            
-        }
-    )
-};
+exports.message_delete_post = [
+    (req, res, next) => {
+        Message.findByIdAndDelete(req.body.messageId)
+            .exec((err, message) => {
+                if(err) return next(err);
+
+                res.redirect("/messages")
+            }
+        )
+    }
+]
