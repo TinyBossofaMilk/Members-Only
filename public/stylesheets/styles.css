@@ -1,0 +1,21 @@
+/* Define standard variables and values for website */
+nav {
+  background-color: rgba(40, 55, 194, 0.568);
+  color: white;
+  list-style: none; }
+
+.message {
+  display: flex;
+  flex-direction: column; }
+
+.message .title {
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-size: 40px;
+  font-weight: bold;
+  color: red; }
+
+.message .text {
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif; }
+
+.message .text {
+  color: blue; }

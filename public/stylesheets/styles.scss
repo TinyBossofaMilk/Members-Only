@@ -1,0 +1,35 @@
+/* Define standard variables and values for website */
+// $bgcolor: lightblue;
+// $textcolor: darkblue;
+// $fontsize: 18px;
+$bgColor: rgba(40, 55, 194, 0.568);
+$messageFont: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+
+h3 {
+}
+
+nav {
+  background-color: $bgColor;
+  color: white;
+  list-style: none;
+}
+
+.message {
+  display: flex;
+  flex-direction: column;
+
+  .title {
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 40px;
+    font-weight: bold;
+    color: red;
+  } 
+
+  .text {
+    font-family: $messageFont;
+  }
+
+  .text {
+    color:blue;
+  }
+}
