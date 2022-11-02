@@ -26,8 +26,8 @@ exports.message_form_get = (req, res) => {
         res.redirect('/sign-up')
         
     //if not a member, redirect to membership form
-    if(!res.locals.currentUser.member)
-        res.redirect('/sign-up')
+    // if(!res.locals.currentUser.member)
+        // res.redirect('/sign-up')
 
     res.render("message-form", {user: res.locals.currentUser});
 };

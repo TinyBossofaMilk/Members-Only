@@ -1,21 +1,31 @@
 /* Define standard variables and values for website */
+.container {
+  display: flex; }
+
+h3 {
+  font-family: "Times New Roman", Times, serif; }
+
 nav {
   background-color: rgba(40, 55, 194, 0.568);
   color: white;
-  list-style: none; }
+  list-style-type: none; }
 
-.message {
+.messages-container {
   display: flex;
   flex-direction: column; }
 
-.message .title {
+.messages-container .message {
+  display: flex;
+  flex-direction: column; }
+
+.messages-container .message .title {
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   font-size: 40px;
   font-weight: bold;
   color: red; }
 
-.message .text {
+.messages-container .message .text {
   font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif; }
 
-.message .text {
+.messages-container .message .text {
   color: blue; }

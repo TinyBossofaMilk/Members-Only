@@ -3,33 +3,46 @@
 // $textcolor: darkblue;
 // $fontsize: 18px;
 $bgColor: rgba(40, 55, 194, 0.568);
+
+$titleFont: 'Times New Roman', Times, serif;
+$titleSize: 40px;
 $messageFont: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 
+.container {
+  display: flex;
+  ;
+}
+
 h3 {
+  font-family: $titleFont;
 }
 
 nav {
   background-color: $bgColor;
   color: white;
-  list-style: none;
+  list-style-type: none;
 }
-
-.message {
+.messages-container {
   display: flex;
   flex-direction: column;
 
-  .title {
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-    font-size: 40px;
-    font-weight: bold;
-    color: red;
-  } 
-
-  .text {
-    font-family: $messageFont;
-  }
-
-  .text {
-    color:blue;
+  .message {
+    display: flex;
+    flex-direction: column;
+    
+    .title {
+      font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+      font-size: 40px;
+      font-weight: bold;
+      color: red;
+    } 
+    
+    .text {
+      font-family: $messageFont;
+    }
+    
+    .text {
+      color:blue;
+    }
   }
 }

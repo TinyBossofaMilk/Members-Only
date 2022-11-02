@@ -13,7 +13,6 @@ const dotenv = require('dotenv').config();
 var compression = require('compression');
 var helmet = require('helmet');
 
-
 const User = require('./models/user')
 const indexRouter = require('./routes/index');
 
@@ -56,13 +55,13 @@ passport.use(
 
 // save cookies to keep people logged in or not
 passport.serializeUser(function(user, done) {
-    done(null, user.id);
+  done(null, user.id);
 });
 
 passport.deserializeUser(function(id, done) {
-    User.findById(id, function(err, user) {
-        done(err, user);
-    });
+  User.findById(id, function(err, user) {
+    done(err, user);
+  });
 });
 
 app.use(session({ secret: "cats", resave: false, saveUninitialized: true }));

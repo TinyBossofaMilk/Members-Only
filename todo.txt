@@ -1,0 +1,3 @@
+Add confirmation before deleting messages
+
+add guest entry only.
